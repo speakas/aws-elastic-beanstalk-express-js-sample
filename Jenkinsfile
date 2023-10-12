@@ -1,24 +1,13 @@
 pipeline {
-    agent any
-    stages {
-        stage('Debug Docker') {
-            steps {
-                script {
-                    echo "DOCKER INFO:"
-                    sh "docker info || true"
-                    echo "ENV VARIABLES:"
-                    sh "env || true"
-                }
-            }
+    agent {
+        docker {
+            image 'node:16' // use Node 16 Docker image as the build agent
         }
+    }
+    stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:16'
-                }
-            }
             steps {
-                sh 'npm install --save'
+                sh 'npm install --save' // run npm install command
             }
         }
     }
